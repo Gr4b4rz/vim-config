@@ -29,6 +29,19 @@ set softtabstop=4
  
 set undolevels=1000
 set backspace=indent,eol,start
+filetype off
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'stephpy/vim-yaml'
+Plugin 'Glench/Vim-Jinja2-Syntax'
+" All of your Plugins must be added before the following line
+call vundle#end()
+
+filetype plugin indent on
 map <C-k> :NERDTreeToggle<CR>
 
 " Only do this part when compiled with support for autocommands
@@ -70,8 +83,6 @@ if &t_Co > 2 || has("gui_running")
   syntax on
   set hlsearch
 endif
-
-filetype plugin on
 
 if &term=="xterm"
      set t_Co=8
