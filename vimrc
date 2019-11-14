@@ -10,8 +10,8 @@ set viminfo='20,\"50	" read/write a .viminfo file, don't store more
 			" than 50 lines of registers
 set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
-set number
 set linebreak
+set relativenumber
 set showbreak=+++ 
 set textwidth=100
 set showmatch	
@@ -26,6 +26,10 @@ set shiftwidth=4
 set smartindent	
 set smarttab
 set softtabstop=4	
+set laststatus=2
+set noshowmode
+set completeopt-=preview
+set updatetime=250
  
 set undolevels=1000
 set backspace=indent,eol,start
@@ -38,6 +42,12 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'stephpy/vim-yaml'
 Plugin 'Glench/Vim-Jinja2-Syntax'
+Plugin 'ycm-core/YouCompleteMe'
+Plugin 'itchyny/lightline.vim'
+Plugin 'itchyny/vim-gitbranch'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'junegunn/fzf.vim'
+
 " All of your Plugins must be added before the following line
 call vundle#end()
 
@@ -93,3 +103,38 @@ endif
 " Don't wake up system with blinking cursor:
 " http://www.linuxpowertop.org/known.php
 let &guicursor = &guicursor . ",a:blinkon0"
+
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+let g:lightline = {
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'gitbranch#name'
+      \ },
+      \ }
+
+" Use fontawesome icons as signs
+let g:gitgutter_sign_added = ''
+let g:gitgutter_sign_modified = ''
+let g:gitgutter_sign_removed = ''
+let g:gitgutter_sign_removed_first_line = ''
+let g:gitgutter_sign_modified_removed = ''
+highlight GitGutterAdd ctermfg=28
+highlight GitGutterChange ctermfg=12
+highlight GitGutterDelete ctermfg=9
+
+" FZF shortcut
+fun! FzfGitFilesIfPossible()
+    let is_git = system('git status')
+    if v:shell_error
+	:Files
+    else
+	:GFiles
+    endif
+endfun
+
+nnoremap <C-p> :call FzfGitFilesIfPossible()<CR>
