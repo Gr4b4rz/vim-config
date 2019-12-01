@@ -12,28 +12,40 @@ set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set linebreak
 set relativenumber
-set showbreak=+++ 
+set showbreak=+++
 set textwidth=100
-set showmatch	
-set showcmd 
+set showmatch
+set showcmd
 set hlsearch
 set smartcase
 set ignorecase
 set incsearch
- 
+
 set autoindent
 set shiftwidth=4
-set smartindent	
+set smartindent
 set smarttab
-set softtabstop=4	
+set softtabstop=4
 set laststatus=2
 set noshowmode
 set completeopt-=preview
 set updatetime=250
- 
+
 set undolevels=1000
 set backspace=indent,eol,start
 filetype off
+
+highlight LineNr ctermfg=grey
+
+hi clear CursorLine
+augroup CLClear
+    autocmd! ColorScheme * hi clear CursorLine
+augroup END
+
+hi CursorLineNR cterm=bold
+augroup CLNRSet
+    autocmd! ColorScheme * hi CursorLineNR cterm=bold
+augroup END
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -47,12 +59,17 @@ Plugin 'itchyny/lightline.vim'
 Plugin 'itchyny/vim-gitbranch'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/fzf'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'elixir-editors/vim-elixir'
+Plugin 'octol/vim-cpp-enhanced-highlight'
 
 " All of your Plugins must be added before the following line
 call vundle#end()
 
 filetype plugin indent on
 map <C-k> :NERDTreeToggle<CR>
+map <Esc><Esc> :w<CR>
 
 " Only do this part when compiled with support for autocommands
 if has("autocmd")
@@ -91,13 +108,6 @@ endif
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
   syntax on
-  set hlsearch
-endif
-
-if &term=="xterm"
-     set t_Co=8
-     set t_Sb=[4%dm
-     set t_Sf=[3%dm
 endif
 
 " Don't wake up system with blinking cursor:
@@ -138,3 +148,17 @@ fun! FzfGitFilesIfPossible()
 endfun
 
 nnoremap <C-p> :call FzfGitFilesIfPossible()<CR>
+
+" Line movement
+nnoremap <M-j> :m .+1<CR>==
+nnoremap <M-k> :m .-2<CR>==
+inoremap <M-j> <Esc>:m .+1<CR>==gi
+inoremap <M-k> <Esc>:m .-2<CR>==gi
+vnoremap <M-j> :m '>+1<CR>gv=gv
+vnoremap <M-k> :m '<-2<CR>gv=gv
+
+" Trailing whitespaces
+autocmd BufWritePre * %s/\s\+$//e
+
+" Nerd commenter
+let g:NERDTrimTrailingWhitespace = 1
