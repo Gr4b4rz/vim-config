@@ -10,6 +10,12 @@
 		}
 	    }
 	}
-    }
+    },
+    "suggest.maxCompleteItemCount": 10,
+    "python.pythonPath": "python",
+    "coc.preferences.formatOnSaveFiletypes": [
+	"python",
+	"json"
+    ]
 }
 
