@@ -12,6 +12,7 @@ set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set linebreak
 set relativenumber
+set number
 set showbreak=+++
 set textwidth=100
 set showmatch
@@ -36,6 +37,9 @@ set backspace=indent,eol,start
 
 set cmdheight=2
 set shortmess+=c
+set clipboard+=unnamedplus
+set splitright
+set equalalways
 
 highlight LineNr ctermfg=grey
 
@@ -63,29 +67,14 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'elixir-editors/vim-elixir'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'xolox/vim-notes'
+Plug 'xolox/vim-misc'
+Plug 'nvie/vim-flake8'
 
 call plug#end()
 
 map <C-k> :NERDTreeToggle<CR>
 map <Esc><Esc> :w<CR>
-
-" Only do this part when compiled with support for autocommands
-if has("autocmd")
-  augroup fedora
-  autocmd!
-  " In text files, always limit the width of text to 78 characters
-  " autocmd BufRead *.txt set tw=78
-  " When editing a file, always jump to the last cursor position
-  autocmd BufReadPost *
-  \ if line("'\"") > 0 && line ("'\"") <= line("$") |
-  \   exe "normal! g'\"" |
-  \ endif
-  " don't write swapfile on most commonly used directories for NFS mounts or USB sticks
-  autocmd BufNewFile,BufReadPre /media/*,/run/media/*,/mnt/* set directory=~/tmp,/var/tmp,/tmp
-  " start with spec file template
-  autocmd BufNewFile *.spec 0r /usr/share/vim/vimfiles/template.spec
-  augroup END
-endif
 
 if has("cscope") && filereadable("/usr/bin/cscope")
    set csprg=/usr/bin/cscope
@@ -154,6 +143,7 @@ autocmd BufWritePre * %s/\s\+$//e
 
 " Nerd commenter
 let g:NERDTrimTrailingWhitespace = 1
+let g:NERDSpaceDelims = 1
 
 " COC
 " Use tab for trigger completion with characters ahead and navigate.
@@ -269,5 +259,15 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 let g:ycm_keep_logfiles = 1
 let g:ycm_log_level = 'debug'
+let g:notes_directories = ['~/Documents/notes']
 
 nmap <C-j> ciw<C-r>0<ESC>
+
+ " Searching and replacing
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+nnoremap <Leader>r :%s///g<Left><Left>
+map <F4> :execute "noautocmd vimgrep /" . expand("<cword>") . "/j ** `git ls-files`" <Bar> vert copen<CR><C-W>=
+
+map <F5> :noautocmd vimgrep //j ** `git ls-files`<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+
+map <Leader>v  :vert copen<CR><C-W>=
