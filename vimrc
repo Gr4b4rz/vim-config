@@ -70,6 +70,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'xolox/vim-notes'
 Plug 'xolox/vim-misc'
 Plug 'nvie/vim-flake8'
+Plug 'mhinz/vim-mix-format'
 
 call plug#end()
 
@@ -261,6 +262,9 @@ let g:ycm_keep_logfiles = 1
 let g:ycm_log_level = 'debug'
 let g:notes_directories = ['~/Documents/notes']
 
+" Elixir formatting
+let g:mix_format_on_save = 1
+
 nmap <C-j> ciw<C-r>0<ESC>
 
  " Searching and replacing
@@ -271,3 +275,4 @@ map <F4> :execute "noautocmd vimgrep /" . expand("<cword>") . "/j ** `git ls-fil
 map <F5> :noautocmd vimgrep //j ** `git ls-files`<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 map <Leader>v  :vert copen<CR><C-W>=
+
