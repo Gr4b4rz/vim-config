@@ -80,6 +80,8 @@ Plug 'prettier/vim-prettier', {
 Plug 'nvie/vim-flake8'
 Plug 'mhinz/vim-mix-format'
 Plug 'srcery-colors/srcery-vim'
+Plug 'nvie/vim-flake8'
+Plug 'mhinz/vim-mix-format'
 
 call plug#end()
 
@@ -278,6 +280,9 @@ au BufNewFile,BufRead Jenkinsfile setf groovy
 let g:ycm_keep_logfiles = 1
 let g:ycm_log_level = 'debug'
 let g:notes_directories = ['~/Documents/notes']
+
+" Elixir formatting
+let g:mix_format_on_save = 1
 
 " Searching and replacing
 nmap <C-j> ciw<C-r>0<ESC>
