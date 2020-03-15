@@ -38,6 +38,7 @@ set backspace=indent,eol,start
 set cmdheight=2
 set shortmess+=c
 set clipboard+=unnamedplus
+set wildignore=*/build/*,*/Debug/*,*/node_modules/*,*/redis_data/*
 set splitright
 set equalalways
 
@@ -69,7 +70,16 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'xolox/vim-notes'
 Plug 'xolox/vim-misc'
+Plug 'rhysd/vim-clang-format'
+Plug 'preservim/nerdtree'
+Plug 'mfukar/robotframework-vim'
+Plug 'tpope/vim-fugitive'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'markdown', 'yaml', 'html'] },
 Plug 'nvie/vim-flake8'
+Plug 'mhinz/vim-mix-format'
+Plug 'srcery-colors/srcery-vim'
 
 call plug#end()
 
@@ -100,6 +110,9 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 
 let g:lightline = {
       \ 'active': {
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'fileencoding', 'filetype'] ],
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
       \ },
@@ -108,12 +121,6 @@ let g:lightline = {
       \ },
       \ }
 
-" Use fontawesome icons as signs
-let g:gitgutter_sign_added = ''
-let g:gitgutter_sign_modified = ''
-let g:gitgutter_sign_removed = ''
-let g:gitgutter_sign_removed_first_line = ''
-let g:gitgutter_sign_modified_removed = ''
 highlight GitGutterAdd ctermfg=28
 highlight GitGutterChange ctermfg=12
 highlight GitGutterDelete ctermfg=9
@@ -256,14 +263,24 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
+" colorscheme
+colorscheme srcery
+
+" Clang Format
+" let g:clang_format#auto_format = 1
+let g:clang_format#detect_style_file = 1
+autocmd FileType c,cpp,h,hpp ClangFormatAutoEnable
+autocmd BufWritePre *.js,*.ts,*.css,*.scss, PrettierAsync
+
+" Jenkins syntax
+au BufNewFile,BufRead Jenkinsfile setf groovy
 
 let g:ycm_keep_logfiles = 1
 let g:ycm_log_level = 'debug'
 let g:notes_directories = ['~/Documents/notes']
 
+" Searching and replacing
 nmap <C-j> ciw<C-r>0<ESC>
-
- " Searching and replacing
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 nnoremap <Leader>r :%s///g<Left><Left>
 map <F4> :execute "noautocmd vimgrep /" . expand("<cword>") . "/j ** `git ls-files`" <Bar> vert copen<CR><C-W>=
@@ -271,3 +288,5 @@ map <F4> :execute "noautocmd vimgrep /" . expand("<cword>") . "/j ** `git ls-fil
 map <F5> :noautocmd vimgrep //j ** `git ls-files`<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 map <Leader>v  :vert copen<CR><C-W>=
+map <Leader>n  :cn<CR>
+map <Leader>m  :cN<CR>
