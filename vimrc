@@ -31,16 +31,14 @@ set laststatus=2
 set noshowmode
 set completeopt-=preview
 set updatetime=250
-
 set undolevels=1000
 set backspace=indent,eol,start
-
 set cmdheight=2
 set shortmess+=c
 set clipboard+=unnamedplus
 set wildignore=*/build/*,*/Debug/*,*/node_modules/*,*/redis_data/*
 set splitright
-set equalalways
+set expandtab
 
 highlight LineNr ctermfg=grey
 
@@ -68,20 +66,16 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'elixir-editors/vim-elixir'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'xolox/vim-notes'
-Plug 'xolox/vim-misc'
 Plug 'rhysd/vim-clang-format'
 Plug 'preservim/nerdtree'
 Plug 'mfukar/robotframework-vim'
 Plug 'tpope/vim-fugitive'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
-  \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'markdown', 'yaml', 'html'] },
+  \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'markdown', 'yaml', 'html'] }
 Plug 'nvie/vim-flake8'
 Plug 'mhinz/vim-mix-format'
 Plug 'srcery-colors/srcery-vim'
-Plug 'nvie/vim-flake8'
-Plug 'mhinz/vim-mix-format'
 
 call plug#end()
 
@@ -140,12 +134,12 @@ endfun
 nnoremap <C-p> :call FzfGitFilesIfPossible()<CR>
 
 " Line movement
-nnoremap <M-j> :m .+1<CR>==
-nnoremap <M-k> :m .-2<CR>==
-inoremap <M-j> <Esc>:m .+1<CR>==gi
-inoremap <M-k> <Esc>:m .-2<CR>==gi
-vnoremap <M-j> :m '>+1<CR>gv=gv
-vnoremap <M-k> :m '<-2<CR>gv=gv
+nnoremap <M-j> :m .+1<CR>
+nnoremap <M-k> :m .-2<CR>
+inoremap <M-j> <Esc>:m .+1<CR>gi
+inoremap <M-k> <Esc>:m .-2<CR>gi
+vnoremap <M-j> :m '>+1<CR>gv
+vnoremap <M-k> :m '<-2<CR>gv
 
 " Trailing whitespaces
 autocmd BufWritePre * %s/\s\+$//e
@@ -275,11 +269,7 @@ autocmd FileType c,cpp,h,hpp ClangFormatAutoEnable
 autocmd BufWritePre *.js,*.ts,*.css,*.scss, PrettierAsync
 
 " Jenkins syntax
-au BufNewFile,BufRead Jenkinsfile setf groovy
-
-let g:ycm_keep_logfiles = 1
-let g:ycm_log_level = 'debug'
-let g:notes_directories = ['~/Documents/notes']
+au BufNewFile,BufRead Jenkinsfile* setf groovy
 
 " Elixir formatting
 let g:mix_format_on_save = 1
@@ -289,9 +279,7 @@ nmap <C-j> ciw<C-r>0<ESC>
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 nnoremap <Leader>r :%s///g<Left><Left>
 map <F4> :execute "noautocmd vimgrep /" . expand("<cword>") . "/j ** `git ls-files`" <Bar> vert copen<CR><C-W>=
-
 map <F5> :noautocmd vimgrep //j ** `git ls-files`<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-
 map <Leader>v  :vert copen<CR><C-W>=
 map <Leader>n  :cn<CR>
 map <Leader>m  :cN<CR>
