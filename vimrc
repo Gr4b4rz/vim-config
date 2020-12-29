@@ -20,8 +20,6 @@ set showcmd
 set hlsearch
 set smartcase
 set ignorecase
-set incsearch
-
 set autoindent
 set shiftwidth=4
 set smartindent
@@ -38,6 +36,7 @@ set shortmess+=c
 set clipboard+=unnamedplus
 set wildignore=*/build/*,*/Debug/*,*/node_modules/*,*/redis_data/*
 set splitright
+set splitbelow
 set expandtab
 
 highlight LineNr ctermfg=grey
@@ -57,7 +56,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'VundleVim/Vundle.vim'
 Plug 'stephpy/vim-yaml'
 Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'itchyny/lightline.vim'
+" Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf.vim'
@@ -76,11 +75,14 @@ Plug 'prettier/vim-prettier', {
 Plug 'nvie/vim-flake8'
 Plug 'mhinz/vim-mix-format'
 Plug 'srcery-colors/srcery-vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'cespare/vim-toml'
+" Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 call plug#end()
 
 map <C-k> :NERDTreeToggle<CR>
-map <Esc><Esc> :w<CR>
 
 if has("cscope") && filereadable("/usr/bin/cscope")
    set csprg=/usr/bin/cscope
@@ -278,8 +280,28 @@ let g:mix_format_on_save = 1
 nmap <C-j> ciw<C-r>0<ESC>
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 nnoremap <Leader>r :%s///g<Left><Left>
-map <F4> :execute "noautocmd vimgrep /" . expand("<cword>") . "/j ** `git ls-files`" <Bar> vert copen<CR><C-W>=
-map <F5> :noautocmd vimgrep //j ** `git ls-files`<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+map <F4> :execute "noautocmd vimgrep /" . expand("<cword>") . "/j `git ls-files`" <Bar> vert copen<CR><C-W>=
+map <F5> :noautocmd vimgrep //j `git ls-files`<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 map <Leader>v  :vert copen<CR><C-W>=
 map <Leader>n  :cn<CR>
 map <Leader>m  :cN<CR>
+
+" Airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline_powerline_fonts = 1
+let g:airline_section_y=''
+let g:airline_theme='qwq'
+let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', ':%3v'])
+let g:airline_skip_empty_sections = 1
+let g:airline#extensions#coc#enabled = 0
+
+" Terminal buffer
+" start terminal in insert mode
+au BufEnter * if &buftype == 'terminal' | :startinsert | endif
+" open terminal on ctrl+n
+function! OpenTerminal()
+  split term://zsh
+  resize 15
+endfunction
+nnoremap <c-n> :call OpenTerminal()<CR>
