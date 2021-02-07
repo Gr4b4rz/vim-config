@@ -1,0 +1,992 @@
+{
+  "coc-python|global": {
+    "INTERPRETERS_CACHE_v3_CondaEnvFileService": [],
+    "INTERPRETERS_CACHE_v3_CondaEnvService": [],
+    "INTERPRETERS_CACHE_v3_VirtualEnvService": [],
+    "/usr/bin/python3.9.v3": {
+      "data": {
+        "architecture": 3,
+        "path": "/usr/bin/python3.9",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/usr",
+        "fileHash": "cd19ef385044b11ec1c171ea4ee050a28578454e822e0e59ad2e86f4391326efbf47e02759fafda0c8650cd0d048c0183ded85caf0d0f3ba680168a3d718216f"
+      },
+      "expiry": 1612389485783
+    },
+    "/usr/bin/python3.v3": {
+      "data": {
+        "architecture": 3,
+        "path": "/usr/bin/python3",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/usr",
+        "fileHash": "cc73dd0b62e99c808f6c8d1849474d1d1c26bdc9b11d6a1385d4820b003c401d96483e64020eb3193cd8a8ba4b93beb48392482e593019d723b67908f6b67b09"
+      },
+      "expiry": 1612389485773
+    },
+    "/bin/python3.9.v3": {
+      "data": {
+        "architecture": 3,
+        "path": "/bin/python3.9",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/usr",
+        "fileHash": "cd19ef385044b11ec1c171ea4ee050a28578454e822e0e59ad2e86f4391326efbf47e02759fafda0c8650cd0d048c0183ded85caf0d0f3ba680168a3d718216f"
+      },
+      "expiry": 1612389485833
+    },
+    "/bin/python3.v3": {
+      "data": {
+        "architecture": 3,
+        "path": "/bin/python3",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/usr",
+        "fileHash": "cc73dd0b62e99c808f6c8d1849474d1d1c26bdc9b11d6a1385d4820b003c401d96483e64020eb3193cd8a8ba4b93beb48392482e593019d723b67908f6b67b09"
+      },
+      "expiry": 1612389485814
+    },
+    "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9.v3": {
+      "data": {
+        "architecture": 3,
+        "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce"
+      },
+      "expiry": 1612430869454
+    },
+    "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.v3": {
+      "data": {
+        "architecture": 3,
+        "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce"
+      },
+      "expiry": 1612344466072
+    },
+    "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python.v3": {
+      "data": {
+        "architecture": 3,
+        "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce"
+      },
+      "expiry": 1612344466064
+    },
+    "INTERPRETERS_CACHE_v3_CurrentPathService": [
+      {
+        "architecture": 3,
+        "path": "/usr/bin/python3",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/usr",
+        "fileHash": "cc73dd0b62e99c808f6c8d1849474d1d1c26bdc9b11d6a1385d4820b003c401d96483e64020eb3193cd8a8ba4b93beb48392482e593019d723b67908f6b67b09",
+        "type": "Unknown"
+      },
+      {
+        "architecture": 3,
+        "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+        "type": "Unknown"
+      }
+    ],
+    "INTERPRETERS_CACHE_v3_KnownPathsService": [
+      {
+        "architecture": 3,
+        "path": "/usr/bin/python3",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/usr",
+        "fileHash": "cc73dd0b62e99c808f6c8d1849474d1d1c26bdc9b11d6a1385d4820b003c401d96483e64020eb3193cd8a8ba4b93beb48392482e593019d723b67908f6b67b09",
+        "type": "Unknown"
+      },
+      {
+        "architecture": 3,
+        "path": "/usr/bin/python3.9",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/usr",
+        "fileHash": "cd19ef385044b11ec1c171ea4ee050a28578454e822e0e59ad2e86f4391326efbf47e02759fafda0c8650cd0d048c0183ded85caf0d0f3ba680168a3d718216f",
+        "type": "Unknown"
+      },
+      {
+        "architecture": 3,
+        "path": "/bin/python3",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/usr",
+        "fileHash": "cc73dd0b62e99c808f6c8d1849474d1d1c26bdc9b11d6a1385d4820b003c401d96483e64020eb3193cd8a8ba4b93beb48392482e593019d723b67908f6b67b09",
+        "type": "Unknown"
+      },
+      {
+        "architecture": 3,
+        "path": "/bin/python3.9",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/usr",
+        "fileHash": "cd19ef385044b11ec1c171ea4ee050a28578454e822e0e59ad2e86f4391326efbf47e02759fafda0c8650cd0d048c0183ded85caf0d0f3ba680168a3d718216f",
+        "type": "Unknown"
+      },
+      {
+        "architecture": 3,
+        "path": "/usr/bin/python3",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/usr",
+        "fileHash": "cc73dd0b62e99c808f6c8d1849474d1d1c26bdc9b11d6a1385d4820b003c401d96483e64020eb3193cd8a8ba4b93beb48392482e593019d723b67908f6b67b09",
+        "type": "Unknown"
+      },
+      {
+        "architecture": 3,
+        "path": "/usr/bin/python3.9",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/usr",
+        "fileHash": "cd19ef385044b11ec1c171ea4ee050a28578454e822e0e59ad2e86f4391326efbf47e02759fafda0c8650cd0d048c0183ded85caf0d0f3ba680168a3d718216f",
+        "type": "Unknown"
+      },
+      {
+        "architecture": 3,
+        "path": "/bin/python3",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/usr",
+        "fileHash": "cc73dd0b62e99c808f6c8d1849474d1d1c26bdc9b11d6a1385d4820b003c401d96483e64020eb3193cd8a8ba4b93beb48392482e593019d723b67908f6b67b09",
+        "type": "Unknown"
+      },
+      {
+        "architecture": 3,
+        "path": "/bin/python3.9",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/usr",
+        "fileHash": "cd19ef385044b11ec1c171ea4ee050a28578454e822e0e59ad2e86f4391326efbf47e02759fafda0c8650cd0d048c0183ded85caf0d0f3ba680168a3d718216f",
+        "type": "Unknown"
+      }
+    ],
+    "PipEnvInformation": [],
+    "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.interpreter.Details.v7": {
+      "data": {
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce"
+      },
+      "expiry": 1612220002719
+    },
+    "/usr/bin/python3.interpreter.displayName.v7": {
+      "data": {
+        "displayName": "Python 3.9.1 64-bit",
+        "hash": "cc73dd0b62e99c808f6c8d1849474d1d1c26bdc9b11d6a1385d4820b003c401d96483e64020eb3193cd8a8ba4b93beb48392482e593019d723b67908f6b67b09-0bacaa8012d8a9fd37ca82920d20670c"
+      },
+      "expiry": 1612389485918
+    },
+    "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python.interpreter.displayName.v7": {
+      "data": {
+        "displayName": "Python 3.9.1 64-bit ('ENV': venv)",
+        "hash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce-f76681aa06f43bef25f90afad6a08145"
+      },
+      "expiry": 1611783616482
+    },
+    "/bin/python3.interpreter.displayName.v7": {
+      "data": {
+        "displayName": "Python 3.9.1 64-bit",
+        "hash": "cc73dd0b62e99c808f6c8d1849474d1d1c26bdc9b11d6a1385d4820b003c401d96483e64020eb3193cd8a8ba4b93beb48392482e593019d723b67908f6b67b09-735b5bc36411c7dd383abd0598aceb16"
+      },
+      "expiry": 1612430869569
+    },
+    "InterpreterAutoSeletionRule-system": {
+      "architecture": 3,
+      "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9",
+      "version": {
+        "options": {
+          "loose": false,
+          "includePrerelease": false
+        },
+        "loose": false,
+        "raw": "3.9.1-final",
+        "major": 3,
+        "minor": 9,
+        "patch": 1,
+        "prerelease": [
+          "final"
+        ],
+        "build": [],
+        "version": "3.9.1-final"
+      },
+      "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+      "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+      "type": "Unknown",
+      "displayName": "Python 3.9.1 64-bit"
+    },
+    "/usr/bin/python3.interpreter.Details.v7": {
+      "data": {
+        "fileHash": "cc73dd0b62e99c808f6c8d1849474d1d1c26bdc9b11d6a1385d4820b003c401d96483e64020eb3193cd8a8ba4b93beb48392482e593019d723b67908f6b67b09",
+        "info": {
+          "architecture": 3,
+          "path": "/usr/bin/python3",
+          "version": {
+            "options": {
+              "loose": false,
+              "includePrerelease": false
+            },
+            "loose": false,
+            "raw": "3.9.1-final",
+            "major": 3,
+            "minor": 9,
+            "patch": 1,
+            "prerelease": [
+              "final"
+            ],
+            "build": [],
+            "version": "3.9.1-final"
+          },
+          "sysPrefix": "/usr",
+          "fileHash": "cc73dd0b62e99c808f6c8d1849474d1d1c26bdc9b11d6a1385d4820b003c401d96483e64020eb3193cd8a8ba4b93beb48392482e593019d723b67908f6b67b09",
+          "type": "Unknown",
+          "displayName": "Python 3.9.1 64-bit"
+        }
+      },
+      "expiry": 1612389485932
+    },
+    "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python.interpreter.Details.v7": {
+      "data": {
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+        "info": {
+          "architecture": 3,
+          "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python",
+          "version": {
+            "options": {
+              "loose": false,
+              "includePrerelease": false
+            },
+            "loose": false,
+            "raw": "3.9.1-final",
+            "major": 3,
+            "minor": 9,
+            "patch": 1,
+            "prerelease": [
+              "final"
+            ],
+            "build": [],
+            "version": "3.9.1-final"
+          },
+          "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+          "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+          "envName": "ENV",
+          "type": "Venv",
+          "displayName": "Python 3.9.1 64-bit ('ENV': venv)"
+        }
+      },
+      "expiry": 1611783616485
+    },
+    "/bin/python3.interpreter.Details.v7": {
+      "data": {
+        "fileHash": "cc73dd0b62e99c808f6c8d1849474d1d1c26bdc9b11d6a1385d4820b003c401d96483e64020eb3193cd8a8ba4b93beb48392482e593019d723b67908f6b67b09",
+        "info": {
+          "architecture": 3,
+          "path": "/bin/python3",
+          "version": {
+            "options": {
+              "loose": false,
+              "includePrerelease": false
+            },
+            "loose": false,
+            "raw": "3.9.1-final",
+            "major": 3,
+            "minor": 9,
+            "patch": 1,
+            "prerelease": [
+              "final"
+            ],
+            "build": [],
+            "version": "3.9.1-final"
+          },
+          "sysPrefix": "/usr",
+          "fileHash": "cc73dd0b62e99c808f6c8d1849474d1d1c26bdc9b11d6a1385d4820b003c401d96483e64020eb3193cd8a8ba4b93beb48392482e593019d723b67908f6b67b09",
+          "type": "Unknown",
+          "displayName": "Python 3.9.1 64-bit"
+        }
+      },
+      "expiry": 1612437430204
+    },
+    "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.interpreter.displayName.v7": {
+      "data": {
+        "displayName": "Python 3.9.1 64-bit ('ENV': venv)",
+        "hash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce-2f091f80d5e55cad1a3ae08b8a8599f3"
+      },
+      "expiry": 1612220002740
+    },
+    "InterpreterAutoSeletionRule-cachedInterpreters": {
+      "architecture": 3,
+      "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9",
+      "version": {
+        "options": {
+          "loose": false,
+          "includePrerelease": false
+        },
+        "loose": false,
+        "raw": "3.9.1-final",
+        "major": 3,
+        "minor": 9,
+        "patch": 1,
+        "prerelease": [
+          "final"
+        ],
+        "build": [],
+        "version": "3.9.1-final"
+      },
+      "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+      "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+      "type": "Unknown",
+      "displayName": "Python 3.9.1 64-bit"
+    },
+    "ProposeLSBanner": false,
+    "preferredGlobalPyInterpreter": {
+      "architecture": 3,
+      "path": "/bin/python3",
+      "version": {
+        "options": {
+          "loose": false,
+          "includePrerelease": false
+        },
+        "loose": false,
+        "raw": "3.9.1-final",
+        "major": 3,
+        "minor": 9,
+        "patch": 1,
+        "prerelease": [
+          "final"
+        ],
+        "build": [],
+        "version": "3.9.1-final"
+      },
+      "sysPrefix": "/usr",
+      "fileHash": "e0b347a4adbedb2d89bb9f2e8b20498147161fd9ec04ef28d836c2c1ece4afea0704116ecd5b82dd34177beb73edebe52c77f12b21d443931a74950206f63618",
+      "type": "Unknown",
+      "displayName": "Python 3.9.1 64-bit"
+    },
+    "InterpreterAutoSeletionRule-currentPath": {
+      "architecture": 3,
+      "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9",
+      "version": {
+        "options": {
+          "loose": false,
+          "includePrerelease": false
+        },
+        "loose": false,
+        "raw": "3.9.1-final",
+        "major": 3,
+        "minor": 9,
+        "patch": 1,
+        "prerelease": [
+          "final"
+        ],
+        "build": [],
+        "version": "3.9.1-final"
+      },
+      "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+      "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+      "type": "Unknown"
+    },
+    "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9.interpreter.Details.v7": {
+      "data": {
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+        "info": {
+          "architecture": 3,
+          "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9",
+          "version": {
+            "options": {
+              "loose": false,
+              "includePrerelease": false
+            },
+            "loose": false,
+            "raw": "3.9.1-final",
+            "major": 3,
+            "minor": 9,
+            "patch": 1,
+            "prerelease": [
+              "final"
+            ],
+            "build": [],
+            "version": "3.9.1-final"
+          },
+          "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+          "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+          "type": "Unknown",
+          "displayName": "Python 3.9.1 64-bit"
+        }
+      },
+      "expiry": 1612357106193
+    },
+    "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9.interpreter.displayName.v7": {
+      "data": {
+        "displayName": "Python 3.9.1 64-bit",
+        "hash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce-1d22ff91cfd73c3f915ae9f71b12b56f"
+      },
+      "expiry": 1612357106177
+    }
+  },
+  "coc-python|/home/pgrabarski/studies/eiasr_coin_detector": {
+    "INTERPRETERS_CACHE_v3_PipEnvService:d4a1857c1a04e45d938f71f1f5c6a60a": [],
+    "SelectedPythonPath": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3",
+    "INTERPRETERS_CACHE_v3_WorkspaceVirtualEnvService:d4a1857c1a04e45d938f71f1f5c6a60a": [
+      {
+        "architecture": 3,
+        "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+        "envName": "ENV",
+        "type": "Venv"
+      },
+      {
+        "architecture": 3,
+        "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+        "envName": "ENV",
+        "type": "Venv"
+      },
+      {
+        "architecture": 3,
+        "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+        "envName": "ENV",
+        "type": "Venv"
+      }
+    ],
+    "autoSelectedWorkspacePythonInterpreter-/home/pgrabarski/studies/eiasr_coin_detector": {
+      "architecture": 3,
+      "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9",
+      "version": {
+        "options": {
+          "loose": false,
+          "includePrerelease": false
+        },
+        "loose": false,
+        "raw": "3.9.1-final",
+        "major": 3,
+        "minor": 9,
+        "patch": 1,
+        "prerelease": [
+          "final"
+        ],
+        "build": [],
+        "version": "3.9.1-final"
+      },
+      "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+      "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+      "envName": "ENV",
+      "type": "Venv"
+    },
+    "INTERPRETERS_CACHE_v3_PipEnvService": [],
+    "INTERPRETERS_CACHE_v3_WorkspaceVirtualEnvService": [
+      {
+        "architecture": 3,
+        "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+        "envName": "ENV",
+        "type": "Venv"
+      },
+      {
+        "architecture": 3,
+        "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+        "envName": "ENV",
+        "type": "Venv"
+      },
+      {
+        "architecture": 3,
+        "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+        "envName": "ENV",
+        "type": "Venv"
+      }
+    ]
+  },
+  "coc-python|/home/pgrabarski/tama": {
+    "INTERPRETERS_CACHE_v3_PipEnvService:4e911368fd4162daab0f0716e23caedd": [],
+    "INTERPRETERS_CACHE_v3_WorkspaceVirtualEnvService:4e911368fd4162daab0f0716e23caedd": [],
+    "autoSelectedWorkspacePythonInterpreter-/home/pgrabarski/tama": {
+      "architecture": 3,
+      "path": "/bin/python3",
+      "version": {
+        "options": {
+          "loose": false,
+          "includePrerelease": false
+        },
+        "loose": false,
+        "raw": "3.9.1-final",
+        "major": 3,
+        "minor": 9,
+        "patch": 1,
+        "prerelease": [
+          "final"
+        ],
+        "build": [],
+        "version": "3.9.1-final"
+      },
+      "sysPrefix": "/usr",
+      "fileHash": "e0b347a4adbedb2d89bb9f2e8b20498147161fd9ec04ef28d836c2c1ece4afea0704116ecd5b82dd34177beb73edebe52c77f12b21d443931a74950206f63618",
+      "type": "Unknown",
+      "displayName": "Python 3.9.1 64-bit"
+    },
+    "INTERPRETERS_CACHE_v3_PipEnvService": [],
+    "INTERPRETERS_CACHE_v3_WorkspaceVirtualEnvService": [],
+    "INTERPRETERS_CACHE_v3_PipEnvService:d4a1857c1a04e45d938f71f1f5c6a60a": [],
+    "INTERPRETERS_CACHE_v3_WorkspaceVirtualEnvService:d4a1857c1a04e45d938f71f1f5c6a60a": [
+      {
+        "architecture": 3,
+        "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+        "envName": "ENV",
+        "type": "Venv"
+      },
+      {
+        "architecture": 3,
+        "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+        "envName": "ENV",
+        "type": "Venv"
+      },
+      {
+        "architecture": 3,
+        "path": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9",
+        "version": {
+          "options": {
+            "loose": false,
+            "includePrerelease": false
+          },
+          "loose": false,
+          "raw": "3.9.1-final",
+          "major": 3,
+          "minor": 9,
+          "patch": 1,
+          "prerelease": [
+            "final"
+          ],
+          "build": [],
+          "version": "3.9.1-final"
+        },
+        "sysPrefix": "/home/pgrabarski/studies/eiasr_coin_detector/ENV",
+        "fileHash": "fa8d38439676e34df683173d8e73d34571dbd2d98d77f5913cf6bd9985dc5e1643c520201e01e4168f744f31718eff72e2254535621a18252aafa84356a5c2ce",
+        "envName": "ENV",
+        "type": "Venv"
+      }
+    ],
+    "SelectedPythonPath": "/home/pgrabarski/studies/eiasr_coin_detector/ENV/bin/python3.9"
+  },
+  "coc-python|/home/pgrabarski": {
+    "INTERPRETERS_CACHE_v3_WorkspaceVirtualEnvService": [],
+    "INTERPRETERS_CACHE_v3_PipEnvService": []
+  },
+  "coc-python|/home/pgrabarski/priv_repo": {
+    "INTERPRETERS_CACHE_v3_PipEnvService:886f0920bc526dee6a7b2d63ca9e0421": [],
+    "INTERPRETERS_CACHE_v3_WorkspaceVirtualEnvService:886f0920bc526dee6a7b2d63ca9e0421": [],
+    "autoSelectedWorkspacePythonInterpreter-/home/pgrabarski/priv_repo": {
+      "architecture": 3,
+      "path": "/bin/python3",
+      "version": {
+        "options": {
+          "loose": false,
+          "includePrerelease": false
+        },
+        "loose": false,
+        "raw": "3.9.1-final",
+        "major": 3,
+        "minor": 9,
+        "patch": 1,
+        "prerelease": [
+          "final"
+        ],
+        "build": [],
+        "version": "3.9.1-final"
+      },
+      "sysPrefix": "/usr",
+      "fileHash": "e0b347a4adbedb2d89bb9f2e8b20498147161fd9ec04ef28d836c2c1ece4afea0704116ecd5b82dd34177beb73edebe52c77f12b21d443931a74950206f63618",
+      "type": "Unknown",
+      "displayName": "Python 3.9.1 64-bit"
+    },
+    "INTERPRETERS_CACHE_v3_PipEnvService": [],
+    "INTERPRETERS_CACHE_v3_WorkspaceVirtualEnvService": []
+  }
+}

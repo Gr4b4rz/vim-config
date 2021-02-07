@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "coc-angular": ">=11.1.3",
+    "coc-cmake": ">=0.1.1",
+    "coc-css": ">=1.2.6",
+    "coc-diagnostic": ">=0.18.0",
+    "coc-elixir": ">=0.6.1",
+    "coc-fzf-preview": ">=2.0.9",
+    "coc-git": ">=2.2.0",
+    "coc-html": ">=1.4.1",
+    "coc-jedi": ">=0.18.0",
+    "coc-json": ">=1.3.3",
+    "coc-sh": ">=0.6.0",
+    "coc-tsserver": ">=1.6.7",
+    "coc-yaml": ">=1.3.0"
+  }
+}
