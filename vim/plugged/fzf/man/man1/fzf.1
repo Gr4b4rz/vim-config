@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ..
-.TH fzf 1 "Feb 2021" "fzf 0.25.1" "fzf - a command-line fuzzy finder"
+.TH fzf 1 "Nov 2022" "fzf 0.35.1" "fzf - a command-line fuzzy finder"
 
 .SH NAME
 fzf - a command-line fuzzy finder
@@ -50,6 +50,18 @@ Case-sensitive match
 .TP
 .B "--literal"
 Do not normalize latin script letters for matching.
+.TP
+.BI "--scheme=" SCHEME
+Choose scoring scheme tailored for different types of input.
+
+.br
+.BR default "  Generic scoring scheme designed to work well with any type of input"
+.br
+.BR path "     Scoring scheme for paths (additional bonus point only after path separator)
+.br
+.BR history "  Scoring scheme for command history (no additional bonus points).
+         Sets \fB--tiebreak=index\fR as well.
+.br
 .TP
 .BI "--algo=" TYPE
 Fuzzy matching algorithm (default: v2)
@@ -95,6 +107,8 @@ Comma-separated list of sort criteria to apply when the scores are tied.
 .br
 .BR length "  Prefers line with shorter length"
 .br
+.BR chunk "   Prefers line with shorter matched chunk (delimited by whitespaces)"
+.br
 .BR begin "   Prefers line with matched substring closer to the beginning"
 .br
 .BR end "     Prefers line with matched substring closer to the end"
@@ -135,10 +149,14 @@ Enable cyclic scroll
 Keep the right end of the line visible when it's too long. Effective only when
 the query string is empty.
 .TP
+.BI "--scroll-off=" "LINES"
+Number of screen lines to keep above or below when scrolling to the top or to
+the bottom (default: 0).
+.TP
 .B "--no-hscroll"
 Disable horizontal scroll
 .TP
-.BI "--hscroll-off=" "COL"
+.BI "--hscroll-off=" "COLS"
 Number of screen columns to keep to the right of the highlighted substring
 (default: 10). Setting it to a large value will cause the text to be positioned
 on the center of the screen.
@@ -159,9 +177,11 @@ actions are affected:
 Label characters for \fBjump\fR and \fBjump-accept\fR
 .SS Layout
 .TP
-.BI "--height=" "HEIGHT[%]"
+.BI "--height=" "[~]HEIGHT[%]"
 Display fzf window below the cursor with the given height instead of using
-the full screen.
+the full screen. When prefixed with \fB~\fR, fzf will automatically determine
+the height in the range according to the input size. Note that adaptive height
+is not compatible with top/bottom margin and padding given in percent size.
 .TP
 .BI "--min-height=" "HEIGHT"
 Minimum height when \fB--height\fR is given in percent (default: 10).
@@ -183,30 +203,81 @@ Choose the layout (default: default)
 A synonym for \fB--layout=reverse\fB
 
 .TP
-.BI "--border" [=STYLE]
+.BI "--border" [=BORDER_OPT]
 Draw border around the finder
 
 .br
-.BR rounded "     Border with rounded corners (default)"
+.BR rounded "       Border with rounded corners (default)"
 .br
-.BR sharp "       Border with sharp corners"
+.BR sharp "         Border with sharp corners"
 .br
-.BR horizontal "  Horizontal lines above and below the finder"
+.BR bold "          Border with bold lines"
 .br
-.BR vertical "    Vertical lines on each side of the finder"
+.BR double "        Border with double lines"
 .br
-.BR top
+.BR horizontal "    Horizontal lines above and below the finder"
 .br
-.BR bottom
+.BR vertical "      Vertical lines on each side of the finder"
+.br
+.BR top " (up)"
+.br
+.BR bottom " (down)"
 .br
 .BR left
 .br
 .BR right
 .br
+.BR none
+.br
+
+.TP
+.BI "--border-label" [=LABEL]
+Label to print on the horizontal border line. Should be used with one of the
+following \fB--border\fR options.
+
+.br
+.B * rounded
+.br
+.B * sharp
+.br
+.B * bold
+.br
+.B * double
+.br
+.B * horizontal
+.br
+.BR "* top" " (up)"
+.br
+.BR "* bottom" " (down)"
+.br
+
+.br
+e.g.
+  \fB# ANSI color codes are supported
+  # (with https://github.com/busyloop/lolcat)
+  label=$(curl -s http://metaphorpsum.com/sentences/1 | lolcat -f)
+
+  # Border label at the center
+  fzf --height=10 --border --border-label="╢ $label ╟" --color=label:italic:black
+
+  # Left-aligned (positive integer)
+  fzf --height=10 --border --border-label="╢ $label ╟" --border-label-pos=3 --color=label:italic:black
+
+  # Right-aligned (negative integer) on the bottom line (:bottom)
+  fzf --height=10 --border --border-label="╢ $label ╟" --border-label-pos=-3:bottom --color=label:italic:black\fR
+
+.TP
+.BI "--border-label-pos" [=N[:top|bottom]]
+Position of the border label on the border line. Specify a positive integer as
+the column position from the left. Specify a negative integer to right-align
+the label. Label is printed on the top border line by default, add
+\fB:bottom\fR to put it on the border line on the bottom. The default value
+\fB0 (or \fBcenter\fR) will put the label at the center of the border line.
 
 .TP
 .B "--no-unicode"
-Use ASCII characters instead of Unicode box drawing characters to draw border
+Use ASCII characters instead of Unicode drawing characters to draw borders,
+the spinner and the horizontal separator.
 
 .TP
 .BI "--margin=" MARGIN
@@ -259,7 +330,7 @@ e.g.
 
 .TP
 .BI "--info=" "STYLE"
-Determines the display style of finder info.
+Determines the display style of finder info (match counters).
 
 .br
 .BR default "       Display on the next line to the prompt"
@@ -272,6 +343,18 @@ Determines the display style of finder info.
 .TP
 .B "--no-info"
 A synonym for \fB--info=hidden\fB
+
+.TP
+.BI "--separator=" "STR"
+The given string will be repeated to form the horizontal separator on the info
+line (default: '─' or '-' depending on \fB--no-unicode\fR).
+
+ANSI color codes are supported.
+
+.TP
+.B "--no-separator"
+Do not display horizontal separator on the info line. A synonym for
+\fB--separator=''\fB
 
 .TP
 .BI "--prompt=" "STR"
@@ -293,6 +376,12 @@ are not affected by \fB--with-nth\fR. ANSI color codes are processed even when
 The first N lines of the input are treated as the sticky header. When
 \fB--with-nth\fR is set, the lines are transformed just like the other
 lines that follow.
+.TP
+.B "--header-first"
+Print header before the prompt line
+.TP
+.BI "--ellipsis=" "STR"
+Ellipsis to show when line is truncated (default: '..')
 .SS Display
 .TP
 .B "--ansi"
@@ -327,7 +416,9 @@ color mappings.
     \fBquery      \fRQuery string
     \fBdisabled   \fRQuery string when search is disabled
     \fBinfo       \fRInfo line (match counters)
+    \fBseparator  \fRHorizontal separator on info line (match counters)
     \fBborder     \fRBorder around the window (\fB--border\fR and \fB--preview\fR)
+    \fBlabel      \fRBorder label (\fB--border-label\fR and \fB--preview-label\fR)
     \fBprompt     \fRPrompt
     \fBpointer    \fRPointer to the current line
     \fBmarker     \fRMulti-select marker
@@ -338,6 +429,22 @@ color mappings.
     \fB-1         \fRDefault terminal foreground/background color
     \fB           \fR(or the original color of the text)
     \fB0 ~ 15     \fR16 base colors
+      \fBblack\fR
+      \fBred\fR
+      \fBgreen\fR
+      \fByellow\fR
+      \fBblue\fR
+      \fBmagenta\fR
+      \fBcyan\fR
+      \fBwhite\fR
+      \fBbright-black\fR (gray | grey)
+      \fBbright-red\fR
+      \fBbright-green\fR
+      \fBbright-yellow\fR
+      \fBbright-blue\fR
+      \fBbright-magenta\fR
+      \fBbright-cyan\fR
+      \fBbright-white\fR
     \fB16 ~ 255   \fRANSI 256 colors
     \fB#rrggbb    \fR24-bit colors
 
@@ -348,6 +455,7 @@ color mappings.
     \fBreverse\fR
     \fBdim\fR
     \fBitalic\fR
+    \fBstrikethrough\fR
 
 .B EXAMPLES:
 
@@ -422,7 +530,7 @@ e.g.
      \fB# Press CTRL-A to select 100K items and see the sum of all the numbers.
      # This won't work properly without 'f' flag due to ARG_MAX limit.
      seq 100000 | fzf --multi --bind ctrl-a:select-all \\
-                      --preview "awk '{sum+=\$1} END {print sum}' {+f}"\fR
+                      --preview "awk '{sum+=\\$1} END {print sum}' {+f}"\fR
 
 Note that you can escape a placeholder pattern by prepending a backslash.
 
@@ -441,8 +549,39 @@ e.g.
         sleep 0.01
       done'\fR
 .RE
+
 .TP
-.BI "--preview-window=" "[POSITION][:SIZE[%]][:rounded|sharp|noborder][:[no]wrap][:[no]follow][:[no]cycle][:[no]hidden][:+SCROLL[-OFFSET]][:default]"
+.BI "--preview-label" [=LABEL]
+Label to print on the horizontal border line of the preview window.
+Should be used with one of the following \fB--preview-window\fR options.
+
+.br
+.B * border-rounded (default)
+.br
+.B * border-sharp
+.br
+.B * border-bold
+.br
+.B * border-double
+.br
+.B * border-horizontal
+.br
+.B * border-top
+.br
+.B * border-bottom
+.br
+
+.TP
+.BI "--preview-label-pos" [=N[:top|bottom]]
+Position of the border label on the border line of the preview window. Specify
+a positive integer as the column position from the left. Specify a negative
+integer to right-align the label. Label is printed on the top border line by
+default, add \fB:bottom\fR to put it on the border line on the bottom. The
+default value 0 (or \fBcenter\fR) will put the label at the center of the
+border line.
+
+.TP
+.BI "--preview-window=" "[POSITION][,SIZE[%]][,border-BORDER_OPT][,[no]wrap][,[no]follow][,[no]cycle][,[no]hidden][,+SCROLL[OFFSETS][/DENOM]][,~HEADER_LINES][,default][,<SIZE_THRESHOLD(ALTERNATIVE_LAYOUT)]"
 
 .RS
 .B POSITION: (default: right)
@@ -460,9 +599,9 @@ default until \fBtoggle-preview\fR action is triggered.
 execute the command in the background.
 
 * Long lines are truncated by default. Line wrap can be enabled with
-\fB:wrap\fR flag.
+\fBwrap\fR flag.
 
-* Preview window will automatically scroll to the bottom when \fB:follow\fR
+* Preview window will automatically scroll to the bottom when \fBfollow\fR
 flag is set, similarly to how \fBtail -f\fR works.
 
 .RS
@@ -474,38 +613,63 @@ e.g.
       done'\fR
 .RE
 
-* Cyclic scrolling is enabled with \fB:cycle\fR flag.
+* Cyclic scrolling is enabled with \fBcycle\fR flag.
 
 * To change the style of the border of the preview window, specify one of
-\fBrounded\fR (border with rounded edges, default), \fBsharp\fR (border with
-sharp edges), or \fBnoborder\fR (no border).
+the options for \fB--border\fR with \fBborder-\fR prefix.
+e.g. \fBborder-rounded\fR (border with rounded edges, default),
+\fBborder-sharp\fR (border with sharp edges), \fBborder-left\fR,
+\fBborder-none\fR, etc.
 
-* \fB+SCROLL[-OFFSET]\fR determines the initial scroll offset of the preview
-window. \fBSCROLL\fR can be either a numeric integer or a single-field index
-expression that refers to a numeric integer. The optional \fB-OFFSET\fR part is
-for adjusting the base offset so that you can see the text above it. It should
-be given as a numeric integer (\fB-INTEGER\fR), or as a denominator form
-(\fB-/INTEGER\fR) for specifying a fraction of the preview window height.
+* \fB[:+SCROLL[OFFSETS][/DENOM]]\fR determines the initial scroll offset of the
+preview window.
+
+  - \fBSCROLL\fR can be either a numeric integer or a single-field index expression that refers to a numeric integer.
+
+  - The optional \fBOFFSETS\fR part is for adjusting the base offset. It should be given as a series of signed integers (\fB-INTEGER\fR or \fB+INTEGER\fR).
+
+  - The final \fB/DENOM\fR part is for specifying a fraction of the preview window height.
+
+* \fB~HEADER_LINES\fR keeps the top N lines as the fixed header so that they
+are always visible.
 
 * \fBdefault\fR resets all options previously set to the default.
 
 .RS
 e.g.
      \fB# Non-default scroll window positions and sizes
-     fzf --preview="head {}" --preview-window=up:30%
-     fzf --preview="file {}" --preview-window=down:1
+     fzf --preview="head {}" --preview-window=up,30%
+     fzf --preview="file {}" --preview-window=down,1
 
      # Initial scroll offset is set to the line number of each line of
      # git grep output *minus* 5 lines (-5)
      git grep --line-number '' |
-       fzf --delimiter : --preview 'nl {1}' --preview-window +{2}-5
+       fzf --delimiter : --preview 'nl {1}' --preview-window '+{2}-5'
 
-     # Preview with bat, matching line in the middle of the window (-/2)
+     # Preview with bat, matching line in the middle of the window below
+     # the fixed header of the top 3 lines
+     #
+     #   ~3    Top 3 lines as the fixed header
+     #   +{2}  Base scroll offset extracted from the second field
+     #   +3    Extra offset to compensate for the 3-line header
+     #   /2    Put in the middle of the preview area
+     #
      git grep --line-number '' |
        fzf --delimiter : \\
-           --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \\
-           --preview-window +{2}-/2\fR
+           --preview 'bat --style=full --color=always --highlight-line {2} {1}' \\
+           --preview-window '~3,+{2}+3/2'
 
+     # Display top 3 lines as the fixed header
+     fzf --preview 'bat --style=full --color=always {}' --preview-window '~3'\fR
+.RE
+
+* You can specify an alternative set of options that are used only when the size
+  of the preview window is below a certain threshold. Note that only one
+  alternative layout is allowed.
+
+.RS
+e.g.
+      \fBfzf --preview 'cat {}' --preview-window 'right,border-left,<30(up,30%,border-bottom)'\fR
 .RE
 
 .SS Scripting
@@ -514,10 +678,12 @@ e.g.
 Start the finder with the given query
 .TP
 .B "-1, --select-1"
-Automatically select the only match
+If there is only one match for the initial query (\fB--query\fR), do not start
+interactive finder and automatically select the only match
 .TP
 .B "-0, --exit-0"
-Exit immediately when there's no match
+If there is no match for the initial query (\fB--query\fR), do not start
+interactive finder and exit immediately
 .TP
 .BI "-f, --filter=" "STR"
 Filter mode. Do not start interactive finder. When used with \fB--no-sort\fR,
@@ -545,12 +711,6 @@ Read input delimited by ASCII NUL characters instead of newline characters
 .TP
 .B "--print0"
 Print output delimited by ASCII NUL characters instead of newline characters
-.TP
-.B "--no-clear"
-Do not clear finder interface on exit. If fzf was started in full screen mode,
-it will not switch back to the original screen, so you'll have to manually run
-\fBtput rmcup\fR to return. This option can be used to avoid flickering of the
-screen when your application needs to start fzf multiple times in order.
 .TP
 .B "--sync"
 Synchronous search for multi-staged filtering. If specified, fzf will launch
@@ -745,6 +905,15 @@ e.g.
 or any single character
 
 .SS AVAILABLE EVENTS:
+\fIstart\fR
+.RS
+Triggered only once when fzf finder starts. Since fzf consumes the input stream
+asynchronously, the input list is not available unless you use \fI--sync\fR.
+
+e.g.
+     \fB# Move cursor to the last item and select all items
+     seq 1000 | fzf --multi --sync --bind start:last+select-all\fR
+.RE
 \fIchange\fR
 .RS
 Triggered whenever the query string is changed
@@ -767,73 +936,80 @@ e.g.
 A key or an event can be bound to one or more of the following actions.
 
   \fBACTION:                   DEFAULT BINDINGS (NOTES):
-    \fBabort\fR                     \fIctrl-c  ctrl-g  ctrl-q  esc\fR
-    \fBaccept\fR                    \fIenter   double-click\fR
-    \fBaccept-non-empty\fR          (same as \fBaccept\fR except that it prevents fzf from exiting without selection)
-    \fBbackward-char\fR             \fIctrl-b  left\fR
-    \fBbackward-delete-char\fR      \fIctrl-h  bspace\fR
-    \fBbackward-delete-char/eof\fR  (same as \fBbackward-delete-char\fR except aborts fzf if query is empty)
-    \fBbackward-kill-word\fR        \fIalt-bs\fR
-    \fBbackward-word\fR             \fIalt-b   shift-left\fR
-    \fBbeginning-of-line\fR         \fIctrl-a  home\fR
-    \fBcancel\fR                    (clear query string if not empty, abort fzf otherwise)
-    \fBchange-prompt(...)\fR        (change prompt to the given string)
-    \fBclear-screen\fR              \fIctrl-l\fR
-    \fBclear-selection\fR           (clear multi-selection)
-    \fBclose\fR                     (close preview window if open, abort fzf otherwise)
-    \fBclear-query\fR               (clear query string)
-    \fBdelete-char\fR               \fIdel\fR
-    \fBdelete-char/eof\fR           \fIctrl-d\fR (same as \fBdelete-char\fR except aborts fzf if query is empty)
-    \fBdeselect-all\fR              (deselect all matches)
-    \fBdisable-search\fR            (disable search functionality)
-    \fBdown\fR                      \fIctrl-j  ctrl-n  down\fR
-    \fBenable-search\fR             (enable search functionality)
-    \fBend-of-line\fR               \fIctrl-e  end\fR
-    \fBexecute(...)\fR              (see below for the details)
-    \fBexecute-silent(...)\fR       (see below for the details)
-    \fBfirst\fR                     (move to the first match)
-    \fBforward-char\fR              \fIctrl-f  right\fR
-    \fBforward-word\fR              \fIalt-f   shift-right\fR
+    \fBabort\fR                      \fIctrl-c  ctrl-g  ctrl-q  esc\fR
+    \fBaccept\fR                     \fIenter   double-click\fR
+    \fBaccept-non-empty\fR           (same as \fBaccept\fR except that it prevents fzf from exiting without selection)
+    \fBbackward-char\fR              \fIctrl-b  left\fR
+    \fBbackward-delete-char\fR       \fIctrl-h  bspace\fR
+    \fBbackward-delete-char/eof\fR   (same as \fBbackward-delete-char\fR except aborts fzf if query is empty)
+    \fBbackward-kill-word\fR         \fIalt-bs\fR
+    \fBbackward-word\fR              \fIalt-b   shift-left\fR
+    \fBbeginning-of-line\fR          \fIctrl-a  home\fR
+    \fBcancel\fR                     (clear query string if not empty, abort fzf otherwise)
+    \fBchange-preview(...)\fR        (change \fB--preview\fR option)
+    \fBchange-preview-window(...)\fR (change \fB--preview-window\fR option; rotate through the multiple option sets separated by '|')
+    \fBchange-prompt(...)\fR         (change prompt to the given string)
+    \fBclear-screen\fR               \fIctrl-l\fR
+    \fBclear-selection\fR            (clear multi-selection)
+    \fBclose\fR                      (close preview window if open, abort fzf otherwise)
+    \fBclear-query\fR                (clear query string)
+    \fBdelete-char\fR                \fIdel\fR
+    \fBdelete-char/eof\fR            \fIctrl-d\fR (same as \fBdelete-char\fR except aborts fzf if query is empty)
+    \fBdeselect\fR
+    \fBdeselect-all\fR               (deselect all matches)
+    \fBdisable-search\fR             (disable search functionality)
+    \fBdown\fR                       \fIctrl-j  ctrl-n  down\fR
+    \fBenable-search\fR              (enable search functionality)
+    \fBend-of-line\fR                \fIctrl-e  end\fR
+    \fBexecute(...)\fR               (see below for the details)
+    \fBexecute-silent(...)\fR        (see below for the details)
+    \fBfirst\fR                      (move to the first match)
+    \fBforward-char\fR               \fIctrl-f  right\fR
+    \fBforward-word\fR               \fIalt-f   shift-right\fR
     \fBignore\fR
-    \fBjump\fR                      (EasyMotion-like 2-keystroke movement)
-    \fBjump-accept\fR               (jump and accept)
+    \fBjump\fR                       (EasyMotion-like 2-keystroke movement)
+    \fBjump-accept\fR                (jump and accept)
     \fBkill-line\fR
-    \fBkill-word\fR                 \fIalt-d\fR
-    \fBlast\fR                      (move to the last match)
-    \fBnext-history\fR              (\fIctrl-n\fR on \fB--history\fR)
-    \fBpage-down\fR                 \fIpgdn\fR
-    \fBpage-up\fR                   \fIpgup\fR
+    \fBkill-word\fR                  \fIalt-d\fR
+    \fBlast\fR                       (move to the last match)
+    \fBnext-history\fR               (\fIctrl-n\fR on \fB--history\fR)
+    \fBpage-down\fR                  \fIpgdn\fR
+    \fBpage-up\fR                    \fIpgup\fR
     \fBhalf-page-down\fR
     \fBhalf-page-up\fR
-    \fBpreview(...)\fR              (see below for the details)
-    \fBpreview-down\fR              \fIshift-down\fR
-    \fBpreview-up\fR                \fIshift-up\fR
+    \fBpreview(...)\fR               (see below for the details)
+    \fBpreview-down\fR               \fIshift-down\fR
+    \fBpreview-up\fR                 \fIshift-up\fR
     \fBpreview-page-down\fR
     \fBpreview-page-up\fR
     \fBpreview-half-page-down\fR
     \fBpreview-half-page-up\fR
     \fBpreview-bottom\fR
     \fBpreview-top\fR
-    \fBprevious-history\fR          (\fIctrl-p\fR on \fB--history\fR)
-    \fBprint-query\fR               (print query and exit)
+    \fBprevious-history\fR           (\fIctrl-p\fR on \fB--history\fR)
+    \fBprint-query\fR                (print query and exit)
+    \fBput\fR                        (put the character to the prompt)
     \fBrefresh-preview\fR
-    \fBreload(...)\fR               (see below for the details)
-    \fBreplace-query\fR             (replace query string with the current selection)
-    \fBselect-all\fR                (select all matches)
-    \fBtoggle\fR                    (\fIright-click\fR)
-    \fBtoggle-all\fR                (toggle all matches)
-    \fBtoggle+down\fR               \fIctrl-i  (tab)\fR
-    \fBtoggle-in\fR                 (\fB--layout=reverse*\fR ? \fBtoggle+up\fR : \fBtoggle+down\fR)
-    \fBtoggle-out\fR                (\fB--layout=reverse*\fR ? \fBtoggle+down\fR : \fBtoggle+up\fR)
+    \fBrebind(...)\fR                (rebind bindings after \fBunbind\fR)
+    \fBreload(...)\fR                (see below for the details)
+    \fBreplace-query\fR              (replace query string with the current selection)
+    \fBselect\fR
+    \fBselect-all\fR                 (select all matches)
+    \fBtoggle\fR                     (\fIright-click\fR)
+    \fBtoggle-all\fR                 (toggle all matches)
+    \fBtoggle+down\fR                \fIctrl-i  (tab)\fR
+    \fBtoggle-in\fR                  (\fB--layout=reverse*\fR ? \fBtoggle+up\fR : \fBtoggle+down\fR)
+    \fBtoggle-out\fR                 (\fB--layout=reverse*\fR ? \fBtoggle+down\fR : \fBtoggle+up\fR)
     \fBtoggle-preview\fR
     \fBtoggle-preview-wrap\fR
-    \fBtoggle-search\fR             (toggle search functionality)
+    \fBtoggle-search\fR              (toggle search functionality)
     \fBtoggle-sort\fR
-    \fBtoggle+up\fR                 \fIbtab    (shift-tab)\fR
-    \fBunix-line-discard\fR         \fIctrl-u\fR
-    \fBunix-word-rubout\fR          \fIctrl-w\fR
-    \fBup\fR                        \fIctrl-k  ctrl-p  up\fR
-    \fByank\fR                      \fIctrl-y\fR
+    \fBtoggle+up\fR                  \fIbtab    (shift-tab)\fR
+    \fBunbind(...)\fR                (unbind bindings)
+    \fBunix-line-discard\fR          \fIctrl-u\fR
+    \fBunix-word-rubout\fR           \fIctrl-w\fR
+    \fBup\fR                         \fIctrl-k  ctrl-p  up\fR
+    \fByank\fR                       \fIctrl-y\fR
 
 .SS ACTION COMPOSITION
 
@@ -923,7 +1099,6 @@ commands in addition to the default preview command given by \fB--preview\fR
 option.
 
 e.g.
-
      # Default preview command with an extra preview binding
      fzf --preview 'file {}' --bind '?:preview:cat {}'
 
@@ -933,6 +1108,22 @@ e.g.
 
      # Preview window hidden by default, it appears when you first hit '?'
      fzf --bind '?:preview:cat {}' --preview-window hidden
+
+.SS CHANGE PREVIEW WINDOW ATTRIBUTES
+
+\fBchange-preview-window\fR action can be used to change the properties of the
+preview window. Unlike the \fB--preview-window\fR option, you can specify
+multiple sets of options separated by '|' characters.
+
+e.g.
+     # Rotate through the options using CTRL-/
+     fzf --preview 'cat {}' --bind 'ctrl-/:change-preview-window(right,70%|down,40%,border-horizontal|hidden|right)'
+
+     # The default properties given by `--preview-window` are inherited, so an empty string in the list is interpreted as the default
+     fzf --preview 'cat {}' --preview-window 'right,40%,border-left' --bind 'ctrl-/:change-preview-window(70%|down,border-top|hidden|)'
+
+     # This is equivalent to toggle-preview action
+     fzf --preview 'cat {}' --bind 'ctrl-/:change-preview-window(hidden|)'
 
 .SH AUTHOR
 Junegunn Choi (\fIjunegunn.c@gmail.com\fR)

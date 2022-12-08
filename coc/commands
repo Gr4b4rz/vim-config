@@ -1,2 +1,5 @@
+editor.action.organizeImport
+python.sortImports
+rust-analyzer.reloadWorkspace
 python.setInterpreter
 clangd.install

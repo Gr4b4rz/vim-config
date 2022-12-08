@@ -65,6 +65,19 @@ func TestDelimiterRegexRegex(t *testing.T) {
 	}
 }
 
+func TestDelimiterRegexRegexCaret(t *testing.T) {
+	delim := delimiterRegexp(`(^\s*|\s+)`)
+	tokens := Tokenize("foo  bar baz", delim)
+	if delim.str != nil ||
+		len(tokens) != 4 ||
+		tokens[0].text.ToString() != "" ||
+		tokens[1].text.ToString() != "foo  " ||
+		tokens[2].text.ToString() != "bar " ||
+		tokens[3].text.ToString() != "baz" {
+		t.Errorf("%s %d", tokens, len(tokens))
+	}
+}
+
 func TestSplitNth(t *testing.T) {
 	{
 		ranges := splitNth("..")
@@ -102,7 +115,7 @@ func TestIrrelevantNth(t *testing.T) {
 			t.Errorf("nth should be empty: %v", opts.Nth)
 		}
 	}
-	for _, words := range [][]string{[]string{"--nth", "..,3", "+x"}, []string{"--nth", "3,1..", "+x"}, []string{"--nth", "..-1,1", "+x"}} {
+	for _, words := range [][]string{{"--nth", "..,3", "+x"}, {"--nth", "3,1..", "+x"}, {"--nth", "..-1,1", "+x"}} {
 		{
 			opts := defaultOptions()
 			parseOptions(opts, words)
@@ -384,23 +397,23 @@ func TestPreviewOpts(t *testing.T) {
 		opts.Preview.size.size == 50) {
 		t.Error()
 	}
-	opts = optsFor("--preview", "cat {}", "--preview-window=left:15:hidden:wrap:+{1}-/2")
+	opts = optsFor("--preview", "cat {}", "--preview-window=left:15,hidden,wrap:+{1}-/2")
 	if !(opts.Preview.command == "cat {}" &&
 		opts.Preview.hidden == true &&
 		opts.Preview.wrap == true &&
 		opts.Preview.position == posLeft &&
-		opts.Preview.scroll == "{1}-/2" &&
+		opts.Preview.scroll == "+{1}-/2" &&
 		opts.Preview.size.percent == false &&
 		opts.Preview.size.size == 15) {
 		t.Error(opts.Preview)
 	}
-	opts = optsFor("--preview-window=up:15:wrap:hidden:+{1}-/2", "--preview-window=down", "--preview-window=cycle")
+	opts = optsFor("--preview-window=up,15,wrap,hidden,+{1}+3-1-2/2", "--preview-window=down", "--preview-window=cycle")
 	if !(opts.Preview.command == "" &&
 		opts.Preview.hidden == true &&
 		opts.Preview.wrap == true &&
 		opts.Preview.cycle == true &&
 		opts.Preview.position == posDown &&
-		opts.Preview.scroll == "{1}-/2" &&
+		opts.Preview.scroll == "+{1}+3-1-2/2" &&
 		opts.Preview.size.percent == false &&
 		opts.Preview.size.size == 15) {
 		t.Error(opts.Preview.size.size)
@@ -440,8 +453,6 @@ func TestValidateSign(t *testing.T) {
 		{"😀", true},
 		{"", false},
 		{">>>", false},
-		{"\n", false},
-		{"\t", false},
 	}
 
 	for _, testCase := range testCases {

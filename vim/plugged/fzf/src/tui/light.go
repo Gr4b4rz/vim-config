@@ -10,9 +10,10 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/junegunn/fzf/src/util"
+	"github.com/mattn/go-runewidth"
+	"github.com/rivo/uniseg"
 
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 )
 
 const (
@@ -22,7 +23,7 @@ const (
 	defaultEscDelay = 100
 	escPollInterval = 5
 	offsetPollTries = 10
-	maxInputBuffer  = 10 * 1024
+	maxInputBuffer  = 1024 * 1024
 )
 
 const consoleDevice string = "/dev/tty"
@@ -50,7 +51,7 @@ func (r *LightRenderer) stderrInternal(str string, allowNLCR bool) {
 		}
 		bytes = bytes[sz:]
 	}
-	r.queued += string(runes)
+	r.queued.WriteString(string(runes))
 }
 
 func (r *LightRenderer) csi(code string) {
@@ -58,9 +59,9 @@ func (r *LightRenderer) csi(code string) {
 }
 
 func (r *LightRenderer) flush() {
-	if len(r.queued) > 0 {
-		fmt.Fprint(os.Stderr, r.queued)
-		r.queued = ""
+	if r.queued.Len() > 0 {
+		fmt.Fprint(os.Stderr, "\x1b[?25l"+r.queued.String()+"\x1b[?25h")
+		r.queued.Reset()
 	}
 }
 
@@ -74,7 +75,7 @@ type LightRenderer struct {
 	clickY        []int
 	ttyin         *os.File
 	buffer        []byte
-	origState     *terminal.State
+	origState     *term.State
 	width         int
 	height        int
 	yoffset       int
@@ -82,7 +83,7 @@ type LightRenderer struct {
 	escDelay      int
 	fullscreen    bool
 	upOneLine     bool
-	queued        string
+	queued        strings.Builder
 	y             int
 	x             int
 	maxHeightFunc func(int) int
@@ -175,6 +176,7 @@ func (r *LightRenderer) Init() {
 
 	if r.mouse {
 		r.csi("?1000h")
+		r.csi("?1006h")
 	}
 	r.csi(fmt.Sprintf("%dA", r.MaxY()-1))
 	r.csi("G")
@@ -185,6 +187,10 @@ func (r *LightRenderer) Init() {
 	if !r.fullscreen && r.mouse {
 		r.yoffset, _ = r.findOffset()
 	}
+}
+
+func (r *LightRenderer) Resize(maxHeightFunc func(int) int) {
+	r.maxHeightFunc = maxHeightFunc
 }
 
 func (r *LightRenderer) makeSpace() {
@@ -377,7 +383,7 @@ func (r *LightRenderer) escSequence(sz *int) Event {
 			return Event{Home, 0, nil}
 		case 'F':
 			return Event{End, 0, nil}
-		case 'M':
+		case '<':
 			return r.mouseSequence(sz)
 		case 'P':
 			return Event{F1, 0, nil}
@@ -518,47 +524,73 @@ func (r *LightRenderer) escSequence(sz *int) Event {
 	return Event{Invalid, 0, nil}
 }
 
+// https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h2-Mouse-Tracking
 func (r *LightRenderer) mouseSequence(sz *int) Event {
-	if len(r.buffer) < 6 || !r.mouse {
+	// "\e[<0;0;0M"
+	if len(r.buffer) < 9 || !r.mouse {
 		return Event{Invalid, 0, nil}
 	}
-	*sz = 6
-	switch r.buffer[3] {
-	case 32, 34, 36, 40, 48, // mouse-down / shift / cmd / ctrl
-		35, 39, 43, 51: // mouse-up / shift / cmd / ctrl
-		mod := r.buffer[3] >= 36
-		left := r.buffer[3] == 32
-		down := r.buffer[3]%2 == 0
-		x := int(r.buffer[4] - 33)
-		y := int(r.buffer[5]-33) - r.yoffset
-		double := false
-		if down {
-			now := time.Now()
-			if !left { // Right double click is not allowed
-				r.clickY = []int{}
-			} else if now.Sub(r.prevDownTime) < doubleClickDuration {
-				r.clickY = append(r.clickY, y)
-			} else {
-				r.clickY = []int{y}
-			}
-			r.prevDownTime = now
-		} else {
-			if len(r.clickY) > 1 && r.clickY[0] == r.clickY[1] &&
-				time.Since(r.prevDownTime) < doubleClickDuration {
-				double = true
-			}
-		}
 
-		return Event{Mouse, 0, &MouseEvent{y, x, 0, left, down, double, mod}}
-	case 96, 100, 104, 112, // scroll-up / shift / cmd / ctrl
-		97, 101, 105, 113: // scroll-down / shift / cmd / ctrl
-		mod := r.buffer[3] >= 100
-		s := 1 - int(r.buffer[3]%2)*2
-		x := int(r.buffer[4] - 33)
-		y := int(r.buffer[5]-33) - r.yoffset
-		return Event{Mouse, 0, &MouseEvent{y, x, s, false, false, false, mod}}
+	rest := r.buffer[*sz:]
+	end := bytes.IndexAny(rest, "mM")
+	if end == -1 {
+		return Event{Invalid, 0, nil}
 	}
-	return Event{Invalid, 0, nil}
+
+	elems := strings.SplitN(string(rest[:end]), ";", 3)
+	if len(elems) != 3 {
+		return Event{Invalid, 0, nil}
+	}
+
+	t := atoi(elems[0], -1)
+	x := atoi(elems[1], -1) - 1
+	y := atoi(elems[2], -1) - 1 - r.yoffset
+	if t < 0 || x < 0 {
+		return Event{Invalid, 0, nil}
+	}
+	*sz += end + 1
+
+	down := rest[end] == 'M'
+
+	scroll := 0
+	if t >= 64 {
+		t -= 64
+		if t&0b1 == 1 {
+			scroll = -1
+		} else {
+			scroll = 1
+		}
+	}
+
+	// middle := t & 0b1
+	left := t&0b11 == 0
+
+	// shift := t & 0b100
+	// ctrl := t & 0b1000
+	mod := t&0b1100 > 0
+
+	if scroll != 0 {
+		return Event{Mouse, 0, &MouseEvent{y, x, scroll, false, false, false, mod}}
+	}
+
+	double := false
+	if down {
+		now := time.Now()
+		if !left { // Right double click is not allowed
+			r.clickY = []int{}
+		} else if now.Sub(r.prevDownTime) < doubleClickDuration {
+			r.clickY = append(r.clickY, y)
+		} else {
+			r.clickY = []int{y}
+		}
+		r.prevDownTime = now
+	} else {
+		if len(r.clickY) > 1 && r.clickY[0] == r.clickY[1] &&
+			time.Since(r.prevDownTime) < doubleClickDuration {
+			double = true
+		}
+	}
+	return Event{Mouse, 0, &MouseEvent{y, x, 0, left, down, double, mod}}
 }
 
 func (r *LightRenderer) smcup() {
@@ -596,6 +628,7 @@ func (r *LightRenderer) Resume(clear bool, sigcont bool) {
 		// It's highly likely that the offset we obtained at the beginning is
 		// no longer correct, so we simply disable mouse input.
 		r.csi("?1000l")
+		r.csi("?1006l")
 		r.mouse = false
 	}
 }
@@ -635,6 +668,7 @@ func (r *LightRenderer) Close() {
 	}
 	if r.mouse {
 		r.csi("?1000l")
+		r.csi("?1006l")
 	}
 	r.flush()
 	r.closePlatform()
@@ -646,6 +680,9 @@ func (r *LightRenderer) MaxX() int {
 }
 
 func (r *LightRenderer) MaxY() int {
+	if r.height == 0 {
+		r.updateTerminalSize()
+	}
 	return r.height
 }
 
@@ -675,7 +712,7 @@ func (r *LightRenderer) NewWindow(top int, left int, width int, height int, prev
 
 func (w *LightWindow) drawBorder() {
 	switch w.border.shape {
-	case BorderRounded, BorderSharp:
+	case BorderRounded, BorderSharp, BorderBold, BorderDouble:
 		w.drawBorderAround()
 	case BorderHorizontal:
 		w.drawBorderHorizontal(true, true)
@@ -693,13 +730,17 @@ func (w *LightWindow) drawBorder() {
 }
 
 func (w *LightWindow) drawBorderHorizontal(top, bottom bool) {
+	color := ColBorder
+	if w.preview {
+		color = ColPreviewBorder
+	}
 	if top {
 		w.Move(0, 0)
-		w.CPrint(ColBorder, repeat(w.border.horizontal, w.width))
+		w.CPrint(color, repeat(w.border.horizontal, w.width))
 	}
 	if bottom {
 		w.Move(w.height-1, 0)
-		w.CPrint(ColBorder, repeat(w.border.horizontal, w.width))
+		w.CPrint(color, repeat(w.border.horizontal, w.width))
 	}
 }
 
@@ -708,14 +749,18 @@ func (w *LightWindow) drawBorderVertical(left, right bool) {
 	if !left || !right {
 		width++
 	}
+	color := ColBorder
+	if w.preview {
+		color = ColPreviewBorder
+	}
 	for y := 0; y < w.height; y++ {
 		w.Move(y, 0)
 		if left {
-			w.CPrint(ColBorder, string(w.border.vertical))
+			w.CPrint(color, string(w.border.vertical))
 		}
-		w.CPrint(ColBorder, repeat(' ', width))
+		w.CPrint(color, repeat(' ', width))
 		if right {
-			w.CPrint(ColBorder, string(w.border.vertical))
+			w.CPrint(color, string(w.border.vertical))
 		}
 	}
 }
@@ -818,6 +863,9 @@ func attrCodes(attr Attr) []string {
 	if (attr & Reverse) > 0 {
 		codes = append(codes, "7")
 	}
+	if (attr & StrikeThrough) > 0 {
+		codes = append(codes, "9")
+	}
 	return codes
 }
 
@@ -881,20 +929,26 @@ func wrapLine(input string, prefixLength int, max int, tabstop int) []wrappedLin
 	lines := []wrappedLine{}
 	width := 0
 	line := ""
-	for _, r := range input {
-		w := util.RuneWidth(r, prefixLength+width, 8)
-		width += w
-		str := string(r)
-		if r == '\t' {
+	gr := uniseg.NewGraphemes(input)
+	for gr.Next() {
+		rs := gr.Runes()
+		str := string(rs)
+		var w int
+		if len(rs) == 1 && rs[0] == '\t' {
+			w = tabstop - (prefixLength+width)%tabstop
 			str = repeat(' ', w)
+		} else {
+			w = runewidth.StringWidth(str)
 		}
+		width += w
+
 		if prefixLength+width <= max {
 			line += str
 		} else {
 			lines = append(lines, wrappedLine{string(line), width - w})
 			line = str
 			prefixLength = 0
-			width = util.RuneWidth(r, prefixLength, 8)
+			width = w
 		}
 	}
 	lines = append(lines, wrappedLine{string(line), width})
@@ -906,12 +960,6 @@ func (w *LightWindow) fill(str string, onMove func()) FillReturn {
 	for i, line := range allLines {
 		lines := wrapLine(line, w.posx, w.width, w.tabstop)
 		for j, wl := range lines {
-			if w.posx >= w.Width()-1 && wl.displayWidth == 0 {
-				if w.posy < w.height-1 {
-					w.Move(w.posy+1, 0)
-				}
-				return FillNextLine
-			}
 			w.stderrInternal(wl.text, false)
 			w.posx += wl.displayWidth
 
@@ -925,6 +973,14 @@ func (w *LightWindow) fill(str string, onMove func()) FillReturn {
 				onMove()
 			}
 		}
+	}
+	if w.posx+1 >= w.Width() {
+		if w.posy+1 >= w.height {
+			return FillSuspend
+		}
+		w.Move(w.posy+1, 0)
+		onMove()
+		return FillNextLine
 	}
 	return FillContinue
 }

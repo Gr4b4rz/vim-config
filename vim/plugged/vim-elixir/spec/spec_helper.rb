@@ -3,6 +3,8 @@ require 'tmpdir'
 require 'vimrunner'
 require 'vimrunner/rspec'
 
+GVIM_PATH_FILE = File.expand_path('../../.gvim_path', __FILE__)
+
 class Buffer
   FOLD_PLACEHOLDER = '<!-- FOLD -->'.freeze
 
@@ -123,6 +125,12 @@ module EexBuffer
   end
 end
 
+module HeexBuffer
+  def self.new
+    Buffer.new(VIM, :heex)
+  end
+end
+
 module LeexBuffer
   def self.new
     Buffer.new(VIM, :leex)
@@ -160,6 +168,7 @@ end
 {
   be_elixir_indentation:  :ex,
   be_eelixir_indentation: :eex,
+  be_heelixir_indentation: :heex,
   be_leelixir_indentation: :leex,
   be_surface_indentation: :sface
 }.each do |matcher, type|
@@ -189,6 +198,7 @@ end
 {
   include_elixir_syntax:  :ex,
   include_eelixir_syntax: :eex,
+  include_heelixir_syntax: :heex,
   include_leelixir_syntax: :leex,
   include_surface_syntax: :sface
 }.each do |matcher, type|
@@ -265,7 +275,12 @@ Vimrunner::RSpec.configure do |config|
   config.reuse_server = true
 
   config.start_vim do
-    VIM = Vimrunner.start_gvim
+    VIM =
+      if File.exists?(GVIM_PATH_FILE)
+        Vimrunner::Server.new(executable: File.read(GVIM_PATH_FILE).rstrip).start
+      else
+        Vimrunner.start_gvim
+      end
     VIM.add_plugin(File.expand_path('..', __dir__))
     cmd = ':filetype off<CR>'
     cmd += ':filetype plugin indent on<CR>'

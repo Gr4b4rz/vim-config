@@ -18,11 +18,11 @@
     }
   },
   "suggest.maxCompleteItemCount": 10,
+  "suggest.noselect": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "python",
     "json",
     "css",
-    "markdown",
     "js",
     "ts",
     "vue",
@@ -31,6 +31,7 @@
   "diagnostic-languageserver.filetypes": {
     "python": "pylint"
   },
+  "python.analysis.autoImportCompletions": false,
   "diagnostic-languageserver.linters": {
     "pylint": {
       "sourceName": "pylint",
