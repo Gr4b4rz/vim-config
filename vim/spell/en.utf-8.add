@@ -12,3 +12,12 @@ Perceptron
 KNeighborsClassifier
 scikit
 matplotlib
+geocoding
+OSM
+TERYT
+GUGIK
+NOMINATIM
+OPENCAGE
+geocode
+geocoder
+geocoders

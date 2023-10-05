@@ -114,7 +114,6 @@ CocAction('quickfixes')	coc.txt	/*CocAction('quickfixes')*
 CocAction('rangeSelect')	coc.txt	/*CocAction('rangeSelect')*
 CocAction('refactor')	coc.txt	/*CocAction('refactor')*
 CocAction('references')	coc.txt	/*CocAction('references')*
-CocAction('refreshSource')	coc.txt	/*CocAction('refreshSource')*
 CocAction('reloadExtension')	coc.txt	/*CocAction('reloadExtension')*
 CocAction('rename')	coc.txt	/*CocAction('rename')*
 CocAction('resolveWorkspaceSymbol')	coc.txt	/*CocAction('resolveWorkspaceSymbol')*
@@ -128,6 +127,7 @@ CocAction('showOutline')	coc.txt	/*CocAction('showOutline')*
 CocAction('showSignatureHelp')	coc.txt	/*CocAction('showSignatureHelp')*
 CocAction('showSubTypes')	coc.txt	/*CocAction('showSubTypes')*
 CocAction('showSuperTypes')	coc.txt	/*CocAction('showSuperTypes')*
+CocAction('snippetCancel')	coc.txt	/*CocAction('snippetCancel')*
 CocAction('snippetInsert')	coc.txt	/*CocAction('snippetInsert')*
 CocAction('sourceStat')	coc.txt	/*CocAction('sourceStat')*
 CocAction('toggleExtension')	coc.txt	/*CocAction('toggleExtension')*
@@ -281,7 +281,6 @@ b:coc_trim_final_newlines	coc.txt	/*b:coc_trim_final_newlines*
 b:coc_trim_trailing_whitespace	coc.txt	/*b:coc_trim_trailing_whitespace*
 coc#_select_confirm()	coc.txt	/*coc#_select_confirm()*
 coc#add_command()	coc.txt	/*coc#add_command()*
-coc#add_extension()	coc.txt	/*coc#add_extension()*
 coc#config()	coc.txt	/*coc#config()*
 coc#expandable()	coc.txt	/*coc#expandable()*
 coc#expandableOrJumpable()	coc.txt	/*coc#expandableOrJumpable()*
@@ -412,6 +411,7 @@ coc-config-dialog-pickerButtons	coc-config.txt	/*coc-config-dialog-pickerButtons
 coc-config-dialog-rounded	coc-config.txt	/*coc-config-dialog-rounded*
 coc-config-dialog-shortcutHighlight	coc-config.txt	/*coc-config-dialog-shortcutHighlight*
 coc-config-documentHighlight	coc-config.txt	/*coc-config-documentHighlight*
+coc-config-documentHighlight-limit	coc-config.txt	/*coc-config-documentHighlight-limit*
 coc-config-documentHighlight-priority	coc-config.txt	/*coc-config-documentHighlight-priority*
 coc-config-documentHighlight-timeout	coc-config.txt	/*coc-config-documentHighlight-timeout*
 coc-config-float	coc-config.txt	/*coc-config-float*
@@ -431,10 +431,7 @@ coc-config-inlayHint	coc-config.txt	/*coc-config-inlayHint*
 coc-config-inlayHint-display	coc-config.txt	/*coc-config-inlayHint-display*
 coc-config-inlayHint-enable	coc-config.txt	/*coc-config-inlayHint-enable*
 coc-config-inlayHint-enableParameter	coc-config.txt	/*coc-config-inlayHint-enableParameter*
-coc-config-inlayHint-parameterSeparator	coc-config.txt	/*coc-config-inlayHint-parameterSeparator*
 coc-config-inlayHint-refreshOnInsertMode	coc-config.txt	/*coc-config-inlayHint-refreshOnInsertMode*
-coc-config-inlayHint-subSeparator	coc-config.txt	/*coc-config-inlayHint-subSeparator*
-coc-config-inlayHint-typeSeparator	coc-config.txt	/*coc-config-inlayHint-typeSeparator*
 coc-config-languageserver	coc-config.txt	/*coc-config-languageserver*
 coc-config-links	coc-config.txt	/*coc-config-links*
 coc-config-links-enable	coc-config.txt	/*coc-config-links-enable*
@@ -538,6 +535,8 @@ coc-config-suggest-defaultSortMethod	coc-config.txt	/*coc-config-suggest-default
 coc-config-suggest-detailField	coc-config.txt	/*coc-config-suggest-detailField*
 coc-config-suggest-enableFloat	coc-config.txt	/*coc-config-suggest-enableFloat*
 coc-config-suggest-enablePreselect	coc-config.txt	/*coc-config-suggest-enablePreselect*
+coc-config-suggest-filterGraceful	coc-config.txt	/*coc-config-suggest-filterGraceful*
+coc-config-suggest-filterOnBackspace	coc-config.txt	/*coc-config-suggest-filterOnBackspace*
 coc-config-suggest-floatConfig	coc-config.txt	/*coc-config-suggest-floatConfig*
 coc-config-suggest-formatItems	coc-config.txt	/*coc-config-suggest-formatItems*
 coc-config-suggest-highPrioritySourceLimit	coc-config.txt	/*coc-config-suggest-highPrioritySourceLimit*
@@ -553,6 +552,7 @@ coc-config-suggest-minTriggerInputLength	coc-config.txt	/*coc-config-suggest-min
 coc-config-suggest-noselect	coc-config.txt	/*coc-config-suggest-noselect*
 coc-config-suggest-preferCompleteThanJumpPlaceholder	coc-config.txt	/*coc-config-suggest-preferCompleteThanJumpPlaceholder*
 coc-config-suggest-pumFloatConfig	coc-config.txt	/*coc-config-suggest-pumFloatConfig*
+coc-config-suggest-removeCurrentWord	coc-config.txt	/*coc-config-suggest-removeCurrentWord*
 coc-config-suggest-removeDuplicateItems	coc-config.txt	/*coc-config-suggest-removeDuplicateItems*
 coc-config-suggest-reversePumAboveCursor	coc-config.txt	/*coc-config-suggest-reversePumAboveCursor*
 coc-config-suggest-selection	coc-config.txt	/*coc-config-suggest-selection*
@@ -584,10 +584,10 @@ coc-config-workspace-ignoredFiletypes	coc-config.txt	/*coc-config-workspace-igno
 coc-config-workspace-ignoredFolders	coc-config.txt	/*coc-config-workspace-ignoredFolders*
 coc-config-workspace-openOutputCommand	coc-config.txt	/*coc-config-workspace-openOutputCommand*
 coc-config-workspace-openResourceCommand	coc-config.txt	/*coc-config-workspace-openResourceCommand*
+coc-config-workspace-rootPatterns	coc-config.txt	/*coc-config-workspace-rootPatterns*
 coc-config-workspace-workspaceFolderCheckCwd	coc-config.txt	/*coc-config-workspace-workspaceFolderCheckCwd*
 coc-config-workspace-workspaceFolderFallbackCwd	coc-config.txt	/*coc-config-workspace-workspaceFolderFallbackCwd*
 coc-config.txt	coc-config.txt	/*coc-config.txt*
-coc-configu-workspace-rootPatterns	coc-config.txt	/*coc-configu-workspace-rootPatterns*
 coc-configuration	coc.txt	/*coc-configuration*
 coc-configuration-expand	coc.txt	/*coc-configuration-expand*
 coc-configuration-scope	coc.txt	/*coc-configuration-scope*
@@ -670,6 +670,7 @@ coc-outline	coc.txt	/*coc-outline*
 coc-plugins	coc.txt	/*coc-plugins*
 coc-preferences-bracketEnterImprove	coc-config.txt	/*coc-preferences-bracketEnterImprove*
 coc-preferences-currentFunctionSymbolAutoUpdate	coc-config.txt	/*coc-preferences-currentFunctionSymbolAutoUpdate*
+coc-preferences-currentFunctionSymbolDebounceTime	coc-config.txt	/*coc-preferences-currentFunctionSymbolDebounceTime*
 coc-preferences-enableGFMBreaksInmakrdownDocument	coc-config.txt	/*coc-preferences-enableGFMBreaksInmakrdownDocument*
 coc-preferences-enableLinkedEditing	coc-config.txt	/*coc-preferences-enableLinkedEditing*
 coc-preferences-enableMarkdown	coc-config.txt	/*coc-preferences-enableMarkdown*
@@ -678,6 +679,7 @@ coc-preferences-excludeImageLinksInMarkdownDocument	coc-config.txt	/*coc-prefere
 coc-preferences-extensionUpdateCheck	coc-config.txt	/*coc-preferences-extensionUpdateCheck*
 coc-preferences-floatActions	coc-config.txt	/*coc-preferences-floatActions*
 coc-preferences-formatOnSave	coc-config.txt	/*coc-preferences-formatOnSave*
+coc-preferences-formatOnSaveTimeout	coc-config.txt	/*coc-preferences-formatOnSaveTimeout*
 coc-preferences-formatOnType	coc-config.txt	/*coc-preferences-formatOnType*
 coc-preferences-jumpCommand	coc-config.txt	/*coc-preferences-jumpCommand*
 coc-preferences-maxFileSize	coc-config.txt	/*coc-preferences-maxFileSize*
@@ -685,10 +687,12 @@ coc-preferences-messageLevel	coc-config.txt	/*coc-preferences-messageLevel*
 coc-preferences-promptInput	coc-config.txt	/*coc-preferences-promptInput*
 coc-preferences-renameFillCurrent	coc-config.txt	/*coc-preferences-renameFillCurrent*
 coc-preferences-silentAutoupdate	coc-config.txt	/*coc-preferences-silentAutoupdate*
+coc-preferences-tagDefinitionTimeout	coc-config.txt	/*coc-preferences-tagDefinitionTimeout*
 coc-preferences-useQuickfixForLocations	coc-config.txt	/*coc-preferences-useQuickfixForLocations*
 coc-preferences-watchmanPath	coc-config.txt	/*coc-preferences-watchmanPath*
 coc-preferences-willSaveHandlerTimeout	coc-config.txt	/*coc-preferences-willSaveHandlerTimeout*
 coc-pullDiagnostics	coc.txt	/*coc-pullDiagnostics*
+coc-refactor-buffer	coc.txt	/*coc-refactor-buffer*
 coc-rename	coc.txt	/*coc-rename*
 coc-requirements	coc.txt	/*coc-requirements*
 coc-selection-range	coc.txt	/*coc-selection-range*
@@ -723,6 +727,7 @@ g:coc_highlight_maximum_count	coc.txt	/*g:coc_highlight_maximum_count*
 g:coc_jump_locations	coc.txt	/*g:coc_jump_locations*
 g:coc_last_float_win	coc.txt	/*g:coc_last_float_win*
 g:coc_last_hover_message	coc.txt	/*g:coc_last_hover_message*
+g:coc_list_preview_filetype	coc.txt	/*g:coc_list_preview_filetype*
 g:coc_markdown_disabled_languages	coc.txt	/*g:coc_markdown_disabled_languages*
 g:coc_max_treeview_width	coc.txt	/*g:coc_max_treeview_width*
 g:coc_node_args	coc.txt	/*g:coc_node_args*

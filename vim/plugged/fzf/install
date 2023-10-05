@@ -2,7 +2,7 @@
 
 set -u
 
-version=0.35.1
+version=0.42.0
 auto_completion=
 key_bindings=
 update_config=2
@@ -176,7 +176,9 @@ case "$archi" in
   Linux\ armv8*)      download fzf-$version-linux_arm64.tar.gz   ;;
   Linux\ aarch64*)    download fzf-$version-linux_arm64.tar.gz   ;;
   Linux\ loongarch64) download fzf-$version-linux_loong64.tar.gz ;;
+  Linux\ ppc64le)     download fzf-$version-linux_ppc64le.tar.gz ;;
   Linux\ *64)         download fzf-$version-linux_amd64.tar.gz   ;;
+  Linux\ s390x)       download fzf-$version-linux_s390x.tar.gz   ;;
   FreeBSD\ *64)       download fzf-$version-freebsd_amd64.tar.gz ;;
   OpenBSD\ *64)       download fzf-$version-openbsd_amd64.tar.gz ;;
   CYGWIN*\ *64)       download fzf-$version-windows_amd64.zip    ;;
@@ -194,12 +196,12 @@ if [ -n "$binary_error" ]; then
     echo "  - $binary_error !!!"
   fi
   if command -v go > /dev/null; then
-    echo -n "Building binary (go get -u github.com/junegunn/fzf) ... "
+    echo -n "Building binary (go install github.com/junegunn/fzf) ... "
     if [ -z "${GOPATH-}" ]; then
       export GOPATH="${TMPDIR:-/tmp}/fzf-gopath"
       mkdir -p "$GOPATH"
     fi
-    if go get -ldflags "-s -w -X main.version=$version -X main.revision=go-get" github.com/junegunn/fzf; then
+    if go install -ldflags "-s -w -X main.version=$version -X main.revision=go-install" github.com/junegunn/fzf; then
       echo "OK"
       cp "$GOPATH/bin/fzf" "$fzf_base/bin/"
     else

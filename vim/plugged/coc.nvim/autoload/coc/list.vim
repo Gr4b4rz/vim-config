@@ -78,6 +78,7 @@ function! coc#list#create(position, height, name, numberSelect)
     setl nonumber
     setl norelativenumber
   endif
+  setl colorcolumn=""
   return [bufnr('%'), win_getid(), tabpagenr()]
 endfunction
 
@@ -97,6 +98,9 @@ function! coc#list#setup(source)
   setl norelativenumber bufhidden=wipe nocursorline winfixheight
   setl tabstop=1 nolist nocursorcolumn undolevels=-1
   setl signcolumn=auto
+  if exists('&cursorlineopt')
+    setl cursorlineopt=both
+  endif
   if s:is_vim
     setl nocursorline
   else
@@ -181,11 +185,22 @@ function! coc#list#get_preview(...) abort
   return -1
 endfunction
 
-function! coc#list#scroll_preview(dir) abort
+function! coc#list#scroll_preview(dir, floatPreview) abort
   let winid = coc#list#get_preview()
   if winid == -1
     return
   endif
+  if a:floatPreview
+    let forward = a:dir ==# 'up' ? 0 : 1
+    let amount = 1
+    if s:is_vim
+      call coc#float#scroll_win(winid, forward, amount)
+    else
+      call timer_start(0, { -> coc#float#scroll_win(winid, forward, amount)})
+    endif
+    return
+  endif
+
   if exists('*win_execute')
     call win_execute(winid, "normal! ".(a:dir ==# 'up' ? "\<C-u>" : "\<C-d>"))
   else
@@ -239,13 +254,16 @@ function! coc#list#float_preview(lines, config) abort
   let lines = s:get_preview_lines(a:lines, a:config)
   let height = s:get_preview_height(lines, a:config)
   let height = min([remain, height + 2])
+  if height < 0
+    return
+  endif
   let row = position ==# 'bottom' ? winrow - 3 - height : winrow + winheight(winnr())
   let title = fnamemodify(get(a:config, 'name', ''), ':.')
   let total = get(get(b:, 'list_status', {}), 'total', 0)
   if !empty(total)
     let title .= ' ('.line('.').'/'.total.')'
   endif
-  let lnum = get(a:config, 'lnum', 1)
+  let lnum = min([get(a:config, 'lnum', 1), len(lines)])
   let opts = {
       \ 'relative': 'editor',
       \ 'width': winwidth(winnr()) - 2,
@@ -363,10 +381,14 @@ function! s:preview_highlights(winid, bufnr, config, float) abort
   call sign_unplace(sign_group, {'buffer': a:bufnr})
   let lnum = get(a:config, 'lnum', 1)
   if !empty(filetype)
-    let start = max([0, lnum - 300])
-    let end = min([coc#compat#buf_line_count(a:bufnr), lnum + 300])
-    call coc#highlight#highlight_lines(a:winid, [{'filetype': filetype, 'startLine': start, 'endLine': end}])
-    call coc#compat#execute(a:winid, 'syn sync fromstart')
+    if get(g:, 'coc_list_preview_filetype', 0)
+      call coc#compat#execute(a:winid, 'setf '.filetype)
+    else
+      let start = max([0, lnum - 300])
+      let end = min([coc#compat#buf_line_count(a:bufnr), lnum + 300])
+      call coc#highlight#highlight_lines(a:winid, [{'filetype': filetype, 'startLine': start, 'endLine': end}])
+      call coc#compat#execute(a:winid, 'syn sync fromstart')
+    endif
   else
     call coc#compat#execute(a:winid, 'filetype detect')
     let ft = getbufvar(a:bufnr, '&filetype', '')

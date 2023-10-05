@@ -39,6 +39,8 @@ set splitright
 set splitbelow
 set expandtab
 
+filetype plugin on
+
 highlight LineNr ctermfg=grey
 
 hi clear CursorLine
@@ -77,9 +79,10 @@ Plug 'mhinz/vim-mix-format'
 Plug 'srcery-colors/srcery-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'cespare/vim-toml'
+Plug 'cespare/vim-toml', { 'branch': 'main' }
 Plug 'dbeniamine/cheat.sh-vim'
 Plug 'tell-k/vim-autopep8'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 call plug#end()
@@ -156,12 +159,12 @@ let g:NERDSpaceDelims = 1
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-function! s:check_back_space() abort
+function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
@@ -171,7 +174,8 @@ inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -230,8 +234,8 @@ omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
 " Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <C-d> <Plug>(coc-range-select)
-xmap <silent> <C-d> <Plug>(coc-range-select)
+"nmap <silent> <C-d> <Plug>(coc-range-select)
+"xmap <silent> <C-d> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
@@ -283,7 +287,7 @@ nmap <C-j> ciw<C-r>0<ESC>
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 nnoremap <Leader>r :%s///g<Left><Left>
 map <F4> :execute "noautocmd vimgrep /" . expand("<cword>") . "/j `git ls-files`" <Bar> vert copen<CR><C-W>=
-map <F5> :noautocmd vimgrep //j `git ls-files`<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+map <F5> :noautocmd vimgrep //j `git ls-files`<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 map <Leader>v  :vert copen<CR><C-W>=
 map <Leader>n  :cn<CR>
 map <Leader>m  :cN<CR>
@@ -311,3 +315,13 @@ nnoremap <c-n> :call OpenTerminal()<CR>
 let g:autopep8_disable_show_diff=1
 let g:autopep8_on_save = 1
 let g:autopep8_max_line_length=100
+
+
+" vim-go
+let g:go_fmt_command = "goimports"
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+let g:go_highlight_operators = 1
